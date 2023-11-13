@@ -3,39 +3,21 @@ import React from "react";
 import Button from "../Button";
 import Toast from "../Toast";
 import ToastShelf from "../ToastShelf";
+import ToastProvider from "../ToastProvider/ToastProvider";
+import { ToastContext } from "../ToastProvider/ToastProvider";
 
 import styles from "./ToastPlayground.module.css";
 
 const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 
 function ToastPlayground() {
+  const { createToast } = React.useContext(ToastContext);
   const [message, setMessage] = React.useState("");
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0] || "");
-  const [toastArr, setToastArr] = React.useState([]);
 
-  function dismissToast(id) {
-    setToastArr((prev) =>
-      prev.filter((toast) => {
-        return toast.id !== id;
-      })
-    );
-    return;
-  }
   function popToast(event) {
     event.preventDefault();
-
-    setToastArr((prev) => {
-      return [
-        ...prev,
-        {
-          message,
-          variant,
-          id: crypto.randomUUID(),
-          dismiss: dismissToast,
-        },
-      ];
-    });
-
+    createToast(message, variant);
     setMessage("");
     setVariant(VARIANT_OPTIONS[0]);
   }
@@ -46,7 +28,7 @@ function ToastPlayground() {
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
-      <ToastShelf toasts={toastArr} />
+      <ToastShelf />
       <div className={styles.controlsWrapper}>
         <form onSubmit={(event) => popToast(event)}>
           <div className={styles.row}>
