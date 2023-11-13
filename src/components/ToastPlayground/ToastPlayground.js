@@ -1,9 +1,7 @@
 import React from "react";
 
 import Button from "../Button";
-import Toast from "../Toast";
 import ToastShelf from "../ToastShelf";
-import ToastProvider from "../ToastProvider/ToastProvider";
 import { ToastContext } from "../ToastProvider/ToastProvider";
 
 import styles from "./ToastPlayground.module.css";
