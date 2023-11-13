@@ -27,6 +27,23 @@ function ToastProvider({ children }) {
     return;
   }
 
+  function dismissAllToasts() {
+    setToastArr([]);
+  }
+
+  React.useEffect(() => {
+    function handlerKeyPress(event) {
+      if (event.key === "Escape") {
+        dismissAllToasts();
+      }
+    }
+    window.addEventListener("keydown", handlerKeyPress);
+
+    return () => {
+      window.removeEventListener("keydown", handlerKeyPress);
+    };
+  }, []);
+
   return (
     <ToastContext.Provider
       value={{ toasts: toastArr, createToast, dismissToast }}
